@@ -1,8 +1,17 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Home from './Home'
+import React, { useState } from 'react'
+import { Link, Outlet } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 
-export default function Dashboard() {
+export default function Dashboard({settogglevalue}) {
+    const [isOn, setIsOn] = useState(false);
+    
+
+    const toggle = () => {
+        setIsOn(!isOn);
+        settogglevalue(isOn)
+    };
+   
     return (
         <>
             <div className="container-fluid">
@@ -14,23 +23,29 @@ export default function Dashboard() {
                             </a>
                             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                 <li>
-                                    <Link to="/" data-bs-toggle="collapse" className="nav-link text-white px-0 align-middle">
-                                        <i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </Link>
+                                <h1 className='display-6'>Change Style</h1>
+                                    <div className="btn-group " role="group" aria-label="Toggle button">
+                                       
+                                        <button
+                                            type="button"
+                                            className={`btn ${isOn ? 'btn-primary' : 'btn-secondary'}`}
+                                            onClick={toggle}
+                                        >
+                                            <FontAwesomeIcon icon={isOn ? faToggleOn : faToggleOff} />
+                                        </button>
+                                    </div>
                                 </li>
+
                                 <li>
-                                    <Link to="/employee" className="nav-link px-0 align-middle text-white">
-                                        <i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Manage Employees</span> </Link>
-                                </li>
-                                <li>
-                                    <Link to="profile" className="nav-link px-0 align-middle text-white">
-                                        <i className="fs-4 bi-person"></i> <span className="ms-1 d-none d-sm-inline">Profile</span></Link>
+                                    <Link to="feedbackform" className="nav-link px-0 align-middle text-white">
+                                        <i className="fs-4 bi-person"></i> <span className="ms-1 d-none d-sm-inline">We Are Listening</span></Link>
                                 </li>
 
                             </ul>
                         </div>
                     </div>
                     <div class="col p-0 m-0">
-                       <Home />
+                        <Outlet />
                     </div>
                 </div>
             </div>
